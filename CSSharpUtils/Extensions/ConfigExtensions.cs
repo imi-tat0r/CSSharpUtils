@@ -14,7 +14,7 @@ public static class ConfigExtensions
     private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name ?? "";
 
     // Defines the path to the configuration file, based on the game directory and assembly name.
-    private static readonly string CfgPath =
+    public static readonly string ConfigPath =
         $"{Server.GameDirectory}/csgo/addons/counterstrikesharp/configs/plugins/{AssemblyName}/{AssemblyName}.json";
 
     // Specifies the options for JSON serialization, including indentation for readability.
@@ -45,14 +45,13 @@ public static class ConfigExtensions
 
         // serialize the updated config back to json
         var updatedJsonContent = JsonSerializer.Serialize(config, WriteSerializerOptions);
-        File.WriteAllText(CfgPath, updatedJsonContent);
+        File.WriteAllText(ConfigPath, updatedJsonContent);
     }
 
     /// <summary>
     /// Reloads the configuration from disk, deserializing it back into the configuration object.
     /// </summary>
     /// <typeparam name="T">The type of the configuration object, must inherit from BasePluginConfig.</typeparam>
-    /// <param name="config">The configuration object to reload.</param>
     /// <returns>The reloaded configuration object.</returns>
     /// <remarks>
     /// You should pass the result of this method to your plugins OnConfigParsed() method.
@@ -60,7 +59,7 @@ public static class ConfigExtensions
     public static T Reload<T>(this T config) where T : BasePluginConfig, new()
     {
         // read the configuration file content
-        var configContent = File.ReadAllText(CfgPath);
+        var configContent = File.ReadAllText(ConfigPath);
 
         // deserialize the configuration content back to the object
         return JsonSerializer.Deserialize<T>(configContent, ReadSerializerOptions)!;
