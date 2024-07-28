@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Title>CSSharpUtils</Title>
+        <Authors>imi-tat0r</Authors>
+        <Description>CSSharpUtils is an extension library for CounterStrikeSharp that simplifies player management, message formatting, configuration updates, and more.</Description>
+        <Copyright>imi-tat0r</Copyright>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CounterStrikeSharp.API" Version="1.0.253" />
+    </ItemGroup>
+
+</Project>
