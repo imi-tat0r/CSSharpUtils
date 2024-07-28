@@ -34,7 +34,10 @@ using CSSharpUtils.Extensions;
 config.Update();
 
 // reloads the config file from disk
-OnConfigParsed(config.Reload());
+OnConfigParsed(new MyPluginConfig().Reload());
+
+// get the plugin config path
+Console.WriteLine($"Config path: {ConfigExtensions.ConfigPath}");
 ```
 
 ### Player
@@ -135,6 +138,13 @@ else
 {
     Console.WriteLine("Failed to retrieve game rules.");
 }
+```
+
+### Server
+```csharp
+using CSSharpUtils.Utils;
+
+Console.WriteLine($"Server IP: {ServerUtils.GetServerIp()}");
 ```
 
 ## Credits
