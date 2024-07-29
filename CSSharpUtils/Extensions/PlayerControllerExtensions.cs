@@ -85,26 +85,10 @@ public static class PlayerControllerExtensions
             return;
         
         playerController.Clan = clantag;
-        playerController.SetName(playerController.PlayerName + " ");
+        Utilities.SetStateChanged(playerController, "CCSPlayerController", "m_szClan");
         
-        // Set the state changed for the player name and clan tag after a delay
-        BasePluginExtensions.PluginInstance.AddTimer(0.25f, () =>
-        {
-            Utilities.SetStateChanged(playerController, "CCSPlayerController", "m_szClan");
-            Utilities.SetStateChanged(playerController, "CBasePlayerController", "m_iszPlayerName");
-        });
-        
-        // Reset the player name to the intended value after a delay
-        BasePluginExtensions.PluginInstance.AddTimer(0.3f, () =>
-        {
-            playerController.SetName(playerController.PlayerName.Trim());
-        });
-        
-        // Set the state changed for the player name after another delay
-        BasePluginExtensions.PluginInstance.AddTimer(0.4f, () =>
-        {
-            Utilities.SetStateChanged(playerController, "CBasePlayerController", "m_iszPlayerName");
-        });
+        var fakeEvent = new EventNextlevelChanged(false);
+        fakeEvent.FireEventToClient(playerController);
     }
     
     /// <summary>
