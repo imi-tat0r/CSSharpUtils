@@ -191,10 +191,7 @@ public static class PlayerControllerExtensions
     /// <returns><c>true</c> if the player has the permission; otherwise, <c>false</c>.</returns>
     public static bool HasPermission(this CCSPlayerController? playerController, string permission)
     {
-        if (!playerController.IsPlayer())
-            return false;
-
-        return AdminManager.PlayerHasPermissions(playerController, permission);
+        return playerController.IsPlayer() && AdminManager.PlayerHasPermissions(playerController, permission);
     }
 
     /// <summary>
