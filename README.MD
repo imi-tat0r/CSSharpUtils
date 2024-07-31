@@ -64,6 +64,9 @@ playerController.SetHealth(1337, false); // sets health to 100 (clamped)
 // setting money
 playerController.SetMoney(1337);
 
+// checking for permission
+playerController.HasPermission("@css/generic");
+
 // freeze and unfreeze the player
 playerController.Freeze();
 playerController.Unfreeze();

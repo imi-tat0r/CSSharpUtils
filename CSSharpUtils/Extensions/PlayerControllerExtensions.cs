@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace CSSharpUtils.Extensions;
@@ -146,7 +147,7 @@ public static class PlayerControllerExtensions
     }
     
     /// <summary>
-    /// Sets the health value for the player
+    /// Sets the health value for the player.
     /// </summary>
     /// <param name="playerController">The player controller to set health for.</param>
     /// <param name="health">The health value to set.</param>
@@ -165,7 +166,7 @@ public static class PlayerControllerExtensions
     }
     
     /// <summary>
-    /// Sets the money for the player
+    /// Sets the money for the player.
     /// </summary>
     /// <param name="playerController">The player controller to set money for.</param>
     /// <param name="money">The money value to set.</param>
@@ -180,6 +181,17 @@ public static class PlayerControllerExtensions
         
         moneyServices.Account = money;
         Utilities.SetStateChanged(playerController, "CCSPlayerController", "m_pInGameMoneyServices");
+    }
+
+    /// <summary>
+    /// Checks if the specified controller has a permission.
+    /// </summary>
+    /// <param name="playerController">The player controller to check.</param>
+    /// <param name="permission">The permission to check.</param>
+    /// <returns><c>true</c> if the player has the permission; otherwise, <c>false</c>.</returns>
+    public static bool HasPermission(this CCSPlayerController? playerController, string permission)
+    {
+        return playerController.IsPlayer() && AdminManager.PlayerHasPermissions(playerController, permission);
     }
 
     /// <summary>
