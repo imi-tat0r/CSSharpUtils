@@ -3,6 +3,9 @@
 # CSSharpUtils
 CSSharpUtils is an extension library for CounterStrikeSharp that simplifies player management, message formatting, configuration updates, and more. It provides a set of extensions and utilities to enhance the development experience for CounterStrikeSharp game mods.
 
+# Installation
+Run `dotnet add package CSSharpUtils` or download the latest release from the [releases page](https://github.com/imi-tat0r/CSSharpUtils/releases) and add it as a reference to your project.
+
 ## Extensions
 - **Config**: Simplifies the process of updating and managing plugin configurations by automatically handling version updates and serialization.
 - **Player**: Offers methods for common player actions such as kicking, moving to a team, setting armor, and getting the eye position.
