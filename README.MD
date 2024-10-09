@@ -17,15 +17,6 @@ CSSharpUtils is an extension library for CounterStrikeSharp that simplifies play
 ## Examples
 
 ### Config
-```csharp
-using CSSharpUtils.Extensions;
-
-public override void Load(bool hotReload)
-{
-    // initialize the utils (needed for access to timers)
-    this.InitializeUtils();
-}
-```
 
 ```csharp
 using CSSharpUtils.Extensions;
