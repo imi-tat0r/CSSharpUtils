@@ -75,7 +75,6 @@ public static class PlayerControllerExtensions
     /// <param name="playerController">The player controller to set the clantag for.</param>
     /// <param name="clantag">The new clan tag for the player.</param>
     /// <remarks>
-    /// Requires <see cref="BasePluginExtensions.InitializeUtils"/> to be called in the OnPluginLoad method.
     /// </remarks>
     public static void SetClantag(this CCSPlayerController? playerController, string clantag = "")
     {
