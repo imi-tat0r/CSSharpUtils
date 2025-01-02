@@ -22,7 +22,7 @@ public static class ConfigExtensions
     
     // Specifies the options for JSON deserialization.
     private static readonly JsonSerializerOptions ReadSerializerOptions = new() { ReadCommentHandling = JsonCommentHandling.Skip };
-    
+
 
     /// <summary>
     /// Updates the version of the provided configuration object and serializes it back to JSON.
@@ -31,14 +31,15 @@ public static class ConfigExtensions
     /// </summary>
     /// <typeparam name="T">The type of the configuration object, must inherit from BasePluginConfig.</typeparam>
     /// <param name="config">The configuration object to update and serialize.</param>
-    public static void Update<T>(this T config) where T : BasePluginConfig, new()
+    /// <returns><c>true</c> if the config is updated; otherwise, <c>false</c>.</returns>
+    public static bool Update<T>(this T config) where T : BasePluginConfig, new()
     {
         // get newest config version
         var newCfgVersion = new T().Version;
 
         // loaded config is up-to-date
         if (config.Version == newCfgVersion)
-            return;
+            return false;
 
         // update the version
         config.Version = newCfgVersion;
@@ -46,6 +47,7 @@ public static class ConfigExtensions
         // serialize the updated config back to json
         var updatedJsonContent = JsonSerializer.Serialize(config, WriteSerializerOptions);
         File.WriteAllText(ConfigPath, updatedJsonContent);
+        return true;
     }
 
     /// <summary>
