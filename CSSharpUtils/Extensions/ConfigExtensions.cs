@@ -24,8 +24,9 @@ public static class ConfigExtensions
     /// </summary>
     /// <typeparam name="T">The type of the configuration object, must inherit from BasePluginConfig.</typeparam>
     /// <param name="config">The configuration object to update and serialize.</param>
+    /// <param name="checkVersion">Checks if the new config version is higher then the one saved.</param>
     /// <returns><c>true</c> if the config is updated; otherwise, <c>false</c>.</returns>
-    public static bool Update<T>(this T config) where T : BasePluginConfig, new()
+    public static bool Update<T>(this T config, bool checkVersion = true) where T : BasePluginConfig, new()
     {
         // get config path
         var configPath = GetConfigPath(Assembly.GetCallingAssembly());
@@ -38,7 +39,7 @@ public static class ConfigExtensions
         var newCfgVersion = new T().Version;
 
         // loaded config is up-to-date
-        if (config.Version == newCfgVersion)
+        if (checkVersion && config.Version == newCfgVersion)
             return false;
 
         // get counter of backup file
