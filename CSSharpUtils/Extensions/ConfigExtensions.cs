@@ -27,14 +27,12 @@ public static class ConfigExtensions
     /// <returns><c>true</c> if the config is updated; otherwise, <c>false</c>.</returns>
     public static bool Update<T>(this T config) where T : BasePluginConfig, new()
     {
-        // get the name of the calling assembly
-        var assemblyName = Assembly.GetCallingAssembly().GetName().Name ?? null;
-        
-        // check if the assembly name is null
-        if (assemblyName == null)
-            return false;
+        // get config path
+        var configPath = GetConfigPath(Assembly.GetCallingAssembly());
 
-        var configPath = $"{Server.GameDirectory}/csgo/addons/counterstrikesharp/configs/plugins/{assemblyName}/{assemblyName}";
+        // check if valid config path
+        if (configPath == null)
+            return false;
 
         // get newest config version
         var newCfgVersion = new T().Version;
@@ -68,20 +66,24 @@ public static class ConfigExtensions
     /// </remarks>
     public static T Reload<T>(this T config) where T : BasePluginConfig, new()
     {
-        // get the name of the calling assembly
-        var assemblyName = Assembly.GetCallingAssembly().GetName().Name ?? null;
+        // get config path
+        var configPath = GetConfigPath(Assembly.GetCallingAssembly());
 
-        // check if the assembly name is null
-        if (assemblyName == null)
+        // check if valid config path
+        if (configPath == null)
             return new();
-
-        var configPath = $"{Server.GameDirectory}/csgo/addons/counterstrikesharp/configs/plugins/{assemblyName}/{assemblyName}";
 
         // read the configuration file content
         var configContent = File.ReadAllText($"{configPath}.json");
 
         // deserialize the configuration content back to the object
         return JsonSerializer.Deserialize<T>(configContent, ReadSerializerOptions)!;
+    }
+
+    private static string? GetConfigPath(Assembly callingAssembly)
+    {
+        var assemblyName = callingAssembly.GetName().Name ?? null;
+        return assemblyName == null ? null : $"{Server.GameDirectory}/csgo/addons/counterstrikesharp/configs/plugins/{assemblyName}/{assemblyName}";
     }
 
     private static int GetBackupCount(string configPath)
