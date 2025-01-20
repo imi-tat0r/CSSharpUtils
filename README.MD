@@ -24,14 +24,14 @@ Run `dotnet add package CSSharpUtils` or download the latest release from the [r
 ```csharp
 using CSSharpUtils.Extensions;
 
-// updates the config file on disk if the version is outdated
-config.Update();
+// updates the config file on disk, backup = true creates a backup, checkVersion = true stops overwriting if configs are the same version
+config.Update(backup: true, checkVersion: true);
 
 // reloads the config file from disk
 OnConfigParsed(new MyPluginConfig().Reload());
 
 // get the plugin config path
-Console.WriteLine($"Config path: {ConfigExtensions.ConfigPath}");
+Console.WriteLine($"Config path: {new MyPluginConfig().ConfigPath()}");
 ```
 
 ### Player
@@ -93,6 +93,9 @@ player.PrintToChat(ChatUtils.CleanMessage(message)); // will print "Hello World"
 
 // Send a message to all players in the Terrorist team
 ChatUtils.PrintToTeam(CsTeam.Terrorist, "This message is for Terrorists only.");
+
+// Send a message to all players
+ChatUtils.PrintToAll("This message is for all players.")
 ```
 
 ### Team

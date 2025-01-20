@@ -24,9 +24,9 @@ public static class ConfigExtensions
     /// </summary>
     /// <typeparam name="T">The type of the configuration object, must inherit from BasePluginConfig.</typeparam>
     /// <param name="config">The configuration object to update and serialize.</param>
-    /// <param name="checkVersion">Checks if the new config version is higher then the one saved.</param>
+    /// <param name="backup">Should a backup file be created. default: true</param>
     /// <returns><c>true</c> if the config is updated; otherwise, <c>false</c>.</returns>
-    public static bool Update<T>(this T config, bool checkVersion = true) where T : BasePluginConfig, new()
+    public static bool Update<T>(this T config, bool backup = true, bool checkVersion = true) where T : BasePluginConfig, new()
     {
         // get config path
         var configPath = GetConfigPath(Assembly.GetCallingAssembly());
@@ -35,18 +35,21 @@ public static class ConfigExtensions
         if (configPath == null)
             return false;
 
+        if (backup)
+        {
+            // get counter of backup file
+            var backupCount = GetBackupCount(configPath);
+
+            // create a backup of the current config
+            File.Copy($"{configPath}.json", $"{configPath}-{backupCount}.bak", true);
+        }
+
         // get newest config version
         var newCfgVersion = new T().Version;
 
         // loaded config is up-to-date
         if (checkVersion && config.Version == newCfgVersion)
             return false;
-
-        // get counter of backup file
-        var backupCount = GetBackupCount(configPath);
-
-        // create a backup of the current config
-        File.Copy($"{configPath}.json", $"{configPath}-{backupCount}.bak", true);
 
         // update the version
         config.Version = newCfgVersion;
@@ -79,6 +82,21 @@ public static class ConfigExtensions
 
         // deserialize the configuration content back to the object
         return JsonSerializer.Deserialize<T>(configContent, ReadSerializerOptions)!;
+    }
+
+    /// <summary>
+    /// Gets the full path to the configuration file for the specified plugin.
+    /// </summary>
+    /// <typeparam name="T">The type of the configuration object, must inherit from BasePluginConfig.</typeparam>
+    /// <returns>A string for the full path or <c>null</c></returns>
+    public static string? ConfigPath<T>(this T config) where T : BasePluginConfig, new()
+    {
+        var configPath = GetConfigPath(Assembly.GetCallingAssembly());
+
+        if (configPath != null)
+            return $"{configPath}.json";
+
+        return null;
     }
 
     private static string? GetConfigPath(Assembly callingAssembly)
