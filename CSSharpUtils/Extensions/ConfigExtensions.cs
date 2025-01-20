@@ -25,6 +25,7 @@ public static class ConfigExtensions
     /// <typeparam name="T">The type of the configuration object, must inherit from BasePluginConfig.</typeparam>
     /// <param name="config">The configuration object to update and serialize.</param>
     /// <param name="backup">Should a backup file be created. default: true</param>
+    /// <param name="checkVersion">Checks and stops overwriting if configs are the same version. default: true</param>
     /// <returns><c>true</c> if the config is updated; otherwise, <c>false</c>.</returns>
     public static bool Update<T>(this T config, bool backup = true, bool checkVersion = true) where T : BasePluginConfig, new()
     {
