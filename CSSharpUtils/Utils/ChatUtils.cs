@@ -48,4 +48,15 @@ public static class ChatUtils
         foreach (var player in teamPlayers)
             player.PrintToChat(message);
     }
+
+    /// <summary>
+    /// Sends a chat message to all players.
+    /// </summary>
+    /// <param name="message">The message to send.</param>
+    public static void PrintToAll(string message)
+    {
+        var players = Utilities.GetPlayers();
+        foreach (var player in players)
+            player.PrintToChat(message);
+    }
 }
