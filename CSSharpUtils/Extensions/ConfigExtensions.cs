@@ -36,6 +36,13 @@ public static class ConfigExtensions
         if (configPath == null)
             return false;
 
+        // get newest config version
+        var newCfgVersion = new T().Version;
+
+        // loaded config is up-to-date
+        if (checkVersion && config.Version == newCfgVersion)
+            return false;
+
         if (backup)
         {
             // get counter of backup file
@@ -44,13 +51,6 @@ public static class ConfigExtensions
             // create a backup of the current config
             File.Copy($"{configPath}.json", $"{configPath}-{backupCount}.bak", true);
         }
-
-        // get newest config version
-        var newCfgVersion = new T().Version;
-
-        // loaded config is up-to-date
-        if (checkVersion && config.Version == newCfgVersion)
-            return false;
 
         // update the version
         config.Version = newCfgVersion;
