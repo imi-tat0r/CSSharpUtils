@@ -111,6 +111,14 @@ CsTeam randomTeam = CsTeamUtils.GetRandomTeam();
 Console.WriteLine($"Randomly selected team: {randomTeam}");
 ```
 
+### Workshop
+```csharp
+using CSSharpUtils.Utils;
+
+// Get the workshop id
+string workshopId = WorkshopUtils.GetID();
+```
+
 ### Game
 ```csharp
 using CSSharpUtils.Utils;
